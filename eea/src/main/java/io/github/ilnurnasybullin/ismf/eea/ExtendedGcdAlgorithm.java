@@ -3,15 +3,15 @@ package io.github.ilnurnasybullin.ismf.eea;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
 
-public class ExtendedEuclideanAlgorithm {
+public class ExtendedGcdAlgorithm {
 
-    public GcdWithBezoutsIdentity<Integer> calculate(int a, int b) {
+    public ExtendedGcd<Integer> calculate(int a, int b) {
         if (a == 0) {
-            return new GcdWithBezoutsIdentity<>(Math.absExact(b), new BezoutsIdentity<>(0, sign(b)));
+            return new ExtendedGcd<>(Math.absExact(b), new BezoutCoefficients<>(0, sign(b)));
         }
 
         if (b == 0) {
-            return new GcdWithBezoutsIdentity<>(Math.absExact(a), new BezoutsIdentity<>(sign(a), 0));
+            return new ExtendedGcd<>(Math.absExact(a), new BezoutCoefficients<>(sign(a), 0));
         }
 
         var divisions = new ArrayDeque<Integer>();
@@ -22,19 +22,19 @@ public class ExtendedEuclideanAlgorithm {
         // gcd is always positive
         if (gcd < 0) {
             gcd = Math.absExact(gcd);
-            bezoutsIdentity = new BezoutsIdentity<>(
+            bezoutsIdentity = new BezoutCoefficients<>(
                     Math.negateExact(bezoutsIdentity.x()), Math.negateExact(bezoutsIdentity.y())
             );
         }
 
-        return new GcdWithBezoutsIdentity<>(gcd, bezoutsIdentity);
+        return new ExtendedGcd<>(gcd, bezoutsIdentity);
     }
 
     private int sign(int b) {
         return b < 0 ? -1 : 1;
     }
 
-    private BezoutsIdentity<Integer> calculateBezoutsIdentity(ArrayDeque<Integer> divisions) {
+    private BezoutCoefficients<Integer> calculateBezoutsIdentity(ArrayDeque<Integer> divisions) {
         var x = 0;
         var y = 1;
         while (!divisions.isEmpty()) {
@@ -43,7 +43,7 @@ public class ExtendedEuclideanAlgorithm {
             y = oldX - y * divisions.removeLast();
         }
 
-        return new BezoutsIdentity<>(x, y);
+        return new BezoutCoefficients<>(x, y);
     }
 
     private int gcdWithFillingDivisions(int a, int b, ArrayDeque<Integer> divisions) {
@@ -58,11 +58,11 @@ public class ExtendedEuclideanAlgorithm {
         return b;
     }
 
-    public GcdWithBezoutsIdentity<Long> calculate(long a, long b) {
+    public ExtendedGcd<Long> calculate(long a, long b) {
         return null;
     }
 
-    public GcdWithBezoutsIdentity<BigInteger> calculate(BigInteger a, BigInteger b) {
+    public ExtendedGcd<BigInteger> calculate(BigInteger a, BigInteger b) {
         return null;
     }
 }

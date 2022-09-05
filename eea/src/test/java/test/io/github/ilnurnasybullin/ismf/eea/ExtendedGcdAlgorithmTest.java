@@ -1,6 +1,6 @@
 package test.io.github.ilnurnasybullin.ismf.eea;
 
-import io.github.ilnurnasybullin.ismf.eea.ExtendedEuclideanAlgorithm;
+import io.github.ilnurnasybullin.ismf.eea.ExtendedGcdAlgorithm;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,17 +9,17 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ExtendedEuclideanAlgorithmTest {
+public class ExtendedGcdAlgorithmTest {
 
     @ParameterizedTest
     @MethodSource("testIntCalculateDataSource")
     public void testIntCalculate(int a, int b, int gcd) {
-        var extendedGcd = new ExtendedEuclideanAlgorithm().calculate(a, b);
+        var extendedGcd = new ExtendedGcdAlgorithm().calculate(a, b);
         assertThat(extendedGcd.gcd())
                 .describedAs("check gcd value")
                 .isEqualTo(gcd);
 
-        assertThat(extendedGcd.bezoutsIdentity().x() * a + extendedGcd.bezoutsIdentity().y() * b)
+        assertThat(extendedGcd.bezoutCoefficients().x() * a + extendedGcd.bezoutCoefficients().y() * b)
                 .describedAs("check Bezout's coefficients")
                 .isEqualTo(gcd);
     }
