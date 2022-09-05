@@ -1,3 +1,3 @@
-module io.github.ilnurnasybullin.ismf {
-    exports io.github.ilnurnasybullin.ismf.eea;
+module io.github.ilnurnasybullin.ismf.ext.gcd {
+    exports io.github.ilnurnasybullin.ismf.ext.gcd;
 }

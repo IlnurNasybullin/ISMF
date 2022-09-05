@@ -1,4 +1,4 @@
-package io.github.ilnurnasybullin.ismf.eea;
+package io.github.ilnurnasybullin.ismf.ext.gcd;
 
 import java.math.BigInteger;
 import java.util.ArrayDeque;

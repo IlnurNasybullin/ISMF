@@ -1,6 +1,6 @@
-package test.io.github.ilnurnasybullin.ismf.eea;
+package test.io.github.ilnurnasybullin.ismf.ext.gcd;
 
-import io.github.ilnurnasybullin.ismf.eea.ExtendedGcdAlgorithm;
+import io.github.ilnurnasybullin.ismf.ext.gcd.ExtendedGcdAlgorithm;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
