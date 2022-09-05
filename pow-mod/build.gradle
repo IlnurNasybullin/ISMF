@@ -1,3 +1,16 @@
 dependencies {
     implementation project(':extended-gcd')
 }
+
+mainClassName = 'io.github.ilnurnasybullin.ismf.pow.mod.PowModRun'
+
+application {
+    mainModule = 'io.github.ilnurnasybullin.ismf.pow.mod'
+    mainClass = mainClassName
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
