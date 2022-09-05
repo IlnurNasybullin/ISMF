@@ -18,10 +18,12 @@ public class ExtendedGcdAlgorithmTest {
         assertThat(extendedGcd.gcd())
                 .describedAs("check gcd value")
                 .isEqualTo(gcd);
+        var bezoutCoefficients = extendedGcd.bezoutCoefficients();
 
-        assertThat(extendedGcd.bezoutCoefficients().x() * a + extendedGcd.bezoutCoefficients().y() * b)
-                .describedAs("check Bezout's coefficients")
+        assertThat(bezoutCoefficients.x() * a + bezoutCoefficients.y() * b)
+                .describedAs("check Bezout's coefficients = %s", bezoutCoefficients)
                 .isEqualTo(gcd);
+
     }
 
     public static Stream<Arguments> testIntCalculateDataSource() {
