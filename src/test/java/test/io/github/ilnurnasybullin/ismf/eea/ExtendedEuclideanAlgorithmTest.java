@@ -16,9 +16,11 @@ public class ExtendedEuclideanAlgorithmTest {
     public void testIntCalculate(int a, int b, int gcd) {
         var extendedGcd = new ExtendedEuclideanAlgorithm().calculate(a, b);
         assertThat(extendedGcd.gcd())
+                .describedAs("check gcd value")
                 .isEqualTo(gcd);
 
         assertThat(extendedGcd.bezoutsIdentity().x() * a + extendedGcd.bezoutsIdentity().y() * b)
+                .describedAs("check Bezout's coefficients")
                 .isEqualTo(gcd);
     }
 
@@ -28,6 +30,8 @@ public class ExtendedEuclideanAlgorithmTest {
                 Arguments.of(25, 1, 1),
                 Arguments.of(1, 25, 1),
                 Arguments.of(10, 0, 10),
+                Arguments.of(0, -15, 15),
+                Arguments.of(80, -25, 5),
                 Arguments.of(-25, 4, 1),
                 Arguments.of(-35, -60, 5),
                 Arguments.of(19, 9, 1)
