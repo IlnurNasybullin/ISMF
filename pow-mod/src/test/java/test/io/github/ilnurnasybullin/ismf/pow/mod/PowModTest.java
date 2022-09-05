@@ -16,8 +16,9 @@ public class PowModTest {
             8,      -2,     5,      4,
             0,      4,      2,      0,
             64,     0,      7,      1,
-            -4,     5,      6,      4,
-            -12,    -4,     25,     1
+            -4,     5,      6,      2,
+            -12,    -4,     25,     16,
+            5,      -6,     9,      1
             """)
     public void testLongPowMod(long a, long b, long n, long mod) {
         var actualMod = new PowMod().powMod(a, b, n);
@@ -29,7 +30,10 @@ public class PowModTest {
     @CsvSource(textBlock = """
             # a,    b,      n
             0,      -4,     2,
-            8,      2,      -2
+            8,      2,      -2,
+            # not invertible
+            10,     -7,     14,
+            10,     -7,     15
             """)
     public void testLongPowMod_Exception(long a, long b, long n) {
         assertThatIllegalArgumentException()
