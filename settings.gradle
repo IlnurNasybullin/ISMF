@@ -1,3 +1,4 @@
 rootProject.name = 'ismf'
 include 'extended-gcd'
+include 'pow-mod'
 
