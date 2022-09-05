@@ -1,3 +1,3 @@
 rootProject.name = 'ismf'
-include 'eea'
+include 'extended-gcd'
 

@@ -1,12 +1,18 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group 'io.github.ilnurnasybullin'
+group 'io.github.ilnurnasybullin.ismf'
 version '0.0.1'
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainModule = 'io.github.ilnurnasybullin.ismf.ext.gcd'
+    mainClass = 'io.github.ilnurnasybullin.ismf.ext.gcd.ExtendedGcdRun'
 }
 
 dependencies {
