@@ -10,3 +10,7 @@ jar {
         attributes 'Main-Class': mainClassName
     }
 }
+
+java {
+    withSourcesJar()
+}
