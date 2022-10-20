@@ -1,6 +1,7 @@
 package io.github.ilnurnasybullin.isfm.galois;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class GField {
 
@@ -36,4 +37,16 @@ public class GField {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GField gField = (GField) o;
+        return characteristic == gField.characteristic && power == gField.power;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(characteristic, power);
+    }
 }

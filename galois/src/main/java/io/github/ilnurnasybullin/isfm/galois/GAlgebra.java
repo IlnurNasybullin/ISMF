@@ -12,7 +12,7 @@ public class GAlgebra {
         return new GAlgebra(gSpace);
     }
 
-    public GPolynomial mod(IntPolynomial polynomial, int degree) {
+    public GPolynomial mod(Polynomial polynomial, int degree) {
         return null;
     }
 
