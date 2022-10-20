@@ -13,28 +13,28 @@ public class GAlgebraTest {
 
     @ParameterizedTest
     @MethodSource("_testPow_dataSet_field_2_3")
-    public void testPow(GAlgebra algebra, Polynomial polynomial, int degree, GPolynomial expected) {
+    public void testPow(GAlgebra algebra, SingleTermPolynomial polynomial, int degree, GPolynomial expected) {
         assertThat(algebra.pow(polynomial, degree))
                 .isEqualTo(expected);
     }
 
     public static Stream<Arguments> _testPow_dataSet_field_2_3() {
         var field = GField.of(2, 3);
-        var base = Polynomial.of(new int[]{1, 1, 0});
+        var base = SingleTermPolynomial.of(new int[]{1, 1, 0});
 
         var gSpace = new GSpace(field, base);
         var gAlgebra = GAlgebra.of(gSpace);
 
-        Polynomial x = Polynomial.eye(1);
+        SingleTermPolynomial x = SingleTermPolynomial.eye(1);
 
-        Polynomial x4 = Polynomial.of(new int[]{0, 1, 1});
-        Polynomial x5 = Polynomial.of(new int[]{1, 1, 1});
-        Polynomial x6 = Polynomial.of(new int[]{1, 0, 1});
-        Polynomial x7 = Polynomial.eye(0);
+        SingleTermPolynomial x4 = SingleTermPolynomial.of(new int[]{0, 1, 1});
+        SingleTermPolynomial x5 = SingleTermPolynomial.of(new int[]{1, 1, 1});
+        SingleTermPolynomial x6 = SingleTermPolynomial.of(new int[]{1, 0, 1});
+        SingleTermPolynomial x7 = SingleTermPolynomial.eye(0);
 
         return Stream.of(
                 Arguments.of(gAlgebra, x, 1, new GPolynomial(gSpace, x)),
-                Arguments.of(gAlgebra, x, 2, new GPolynomial(gSpace, Polynomial.eye(2))),
+                Arguments.of(gAlgebra, x, 2, new GPolynomial(gSpace, SingleTermPolynomial.eye(2))),
                 Arguments.of(gAlgebra, x, 3, new GPolynomial(gSpace, base)),
                 Arguments.of(gAlgebra, x, 4, new GPolynomial(gSpace, x4)),
                 Arguments.of(gAlgebra, x, 5, new GPolynomial(gSpace, x5)),

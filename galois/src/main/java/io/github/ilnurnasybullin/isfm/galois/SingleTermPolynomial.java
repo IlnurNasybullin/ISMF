@@ -3,33 +3,33 @@ package io.github.ilnurnasybullin.isfm.galois;
 import java.util.Arrays;
 import java.util.function.IntBinaryOperator;
 
-public class Polynomial {
+public class SingleTermPolynomial {
 
     /**
      * little endian order: c[0] is bound with x0 etc.
       */
     private final int[] coefficients;
 
-    private Polynomial(int[] coefficients) {
+    private SingleTermPolynomial(int[] coefficients) {
         this.coefficients = coefficients;
     }
 
     /**
      * @param coefficients - little endian order - {@link #coefficients}
      */
-    public static Polynomial of(int[] coefficients) {
+    public static SingleTermPolynomial of(int[] coefficients) {
         return byCopy(coefficients);
     }
 
-    private static Polynomial byCopy(int[] coefficients) {
-        return new Polynomial(Arrays.copyOf(coefficients, coefficients.length));
+    private static SingleTermPolynomial byCopy(int[] coefficients) {
+        return new SingleTermPolynomial(Arrays.copyOf(coefficients, coefficients.length));
     }
 
-    private static Polynomial withoutCopy(int[] coefficients) {
-        return new Polynomial(coefficients);
+    private static SingleTermPolynomial withoutCopy(int[] coefficients) {
+        return new SingleTermPolynomial(coefficients);
     }
 
-    public static Polynomial bigEndian(int[] reversed) {
+    public static SingleTermPolynomial bigEndian(int[] reversed) {
         int[] coefficients = reversedArray(reversed);
         return withoutCopy(coefficients);
     }
@@ -43,21 +43,21 @@ public class Polynomial {
         return reversedArray;
     }
 
-    public static Polynomial eye(int maxDegree) {
+    public static SingleTermPolynomial eye(int maxDegree) {
         int[] coefficients = new int[maxDegree + 1];
         coefficients[maxDegree] = 1;
         return of(coefficients);
     }
 
-    public Polynomial pow(int degree) {
+    public SingleTermPolynomial pow(int degree) {
         return this;
     }
 
-    public Polynomial add(Polynomial x) {
+    public SingleTermPolynomial add(SingleTermPolynomial x) {
         return polynomialTermOperating(x, Math::addExact);
     }
 
-    private Polynomial polynomialTermOperating(Polynomial x, IntBinaryOperator operator) {
+    private SingleTermPolynomial polynomialTermOperating(SingleTermPolynomial x, IntBinaryOperator operator) {
         var resultPolynomialsLength = Math.max(coefficients.length, x.coefficients.length);
         var sumPolynomials = new int[resultPolynomialsLength];
 
@@ -76,15 +76,15 @@ public class Polynomial {
 
         return withoutCopy(sumPolynomials);
     }
-    public Polynomial subtract(Polynomial x) {
+    public SingleTermPolynomial subtract(SingleTermPolynomial x) {
         return polynomialTermOperating(x, Math::subtractExact);
     }
 
-    public Polynomial multiply(Polynomial x) {
+    public SingleTermPolynomial multiply(SingleTermPolynomial x) {
         return this;
     }
 
-    public Polynomial divide(Polynomial x) {
+    public SingleTermPolynomial divide(SingleTermPolynomial x) {
         return this;
     }
 
@@ -92,7 +92,7 @@ public class Polynomial {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Polynomial that = (Polynomial) o;
+        SingleTermPolynomial that = (SingleTermPolynomial) o;
         return Arrays.equals(coefficients, that.coefficients);
     }
 
