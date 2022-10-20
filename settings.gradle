@@ -1,5 +1,5 @@
 rootProject.name = 'ismf'
 include 'extended-gcd'
 include 'pow-mod'
-include 'galois-field'
+include 'galois'
 

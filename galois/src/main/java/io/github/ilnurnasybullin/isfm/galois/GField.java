@@ -2,21 +2,21 @@ package io.github.ilnurnasybullin.isfm.galois;
 
 import java.math.BigInteger;
 
-public class Field {
+public class GField {
 
     private final int characteristic;
     private final int power;
 
-    private Field(int characteristic, int power) {
+    private GField(int characteristic, int power) {
         this.characteristic = characteristic;
         this.power = power;
     }
 
-    public static Field of(int characteristic, int power) {
+    public static GField of(int characteristic, int power) {
         checkOnPrime(characteristic);
         checkOnPositive(power);
 
-        return new Field(characteristic, power);
+        return new GField(characteristic, power);
     }
 
     private static void checkOnPositive(int power) {
