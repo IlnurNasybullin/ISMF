@@ -14,7 +14,7 @@ public class GAlgebraTest {
     @ParameterizedTest
     @MethodSource("_testPow_dataSet_field_2_3")
     public void testPow(GAlgebra algebra, Polynomial polynomial, int degree, GPolynomial expected) {
-        assertThat(algebra.mod(polynomial, degree))
+        assertThat(algebra.pow(polynomial, degree))
                 .isEqualTo(expected);
     }
 

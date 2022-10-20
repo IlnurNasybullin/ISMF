@@ -12,7 +12,16 @@ public class GAlgebra {
         return new GAlgebra(gSpace);
     }
 
-    public GPolynomial mod(Polynomial polynomial, int degree) {
+    public GPolynomial pow(Polynomial polynomial, int degree) {
+        if (degree < 0) {
+            var powPolynomial = pow(polynomial, Math.absExact(degree));
+            return reverse(powPolynomial.polynomial());
+        }
+
+        return null;
+    }
+
+    public GPolynomial reverse(Polynomial polynomial) {
         return null;
     }
 
