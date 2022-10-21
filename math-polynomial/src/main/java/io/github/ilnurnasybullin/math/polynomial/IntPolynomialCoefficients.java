@@ -121,6 +121,10 @@ public class IntPolynomialCoefficients {
             );
         }
 
+//        if (divisor.c.length > c.length) {
+//            return new QuotientAndRemainder(ZERO, this);
+//        }
+
         return null;
     }
 
@@ -147,7 +151,7 @@ public class IntPolynomialCoefficients {
 
         var joiner = new StringJoiner(" + ");
         for (int i = c.length - 1; i >= 0; i--) {
-            joiner.add(String.format("%dx_%d", c[i], i + 1));
+            joiner.add(String.format("%dx_%d", c[i], i));
         }
 
         return joiner.toString();
