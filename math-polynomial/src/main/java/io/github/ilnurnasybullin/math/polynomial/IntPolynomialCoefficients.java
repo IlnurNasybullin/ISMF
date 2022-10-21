@@ -62,6 +62,10 @@ public class IntPolynomialCoefficients {
         return withoutCopying(negative);
     }
 
+    public IntPolynomialCoefficients sum(IntPolynomialCoefficients summand) {
+        return null;
+    }
+
     public IntPolynomialCoefficients multiply(int scalar) {
         var product = Arrays.stream(c)
                 .map(value -> Math.multiplyExact(value, scalar))

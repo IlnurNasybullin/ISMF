@@ -55,6 +55,24 @@ public class IntPolynomialCoefficientsTest {
     }
 
     @ParameterizedTest
+    @MethodSource("_testSum_success_dataSet")
+    public void testSum_success(IntPolynomialCoefficients c1, IntPolynomialCoefficients c2,
+                                IntPolynomialCoefficients summand) {
+        assertThat(c1.sum(c2))
+                .isEqualTo(c2.sum(c1))
+                .isEqualTo(summand);
+    }
+
+    public static Stream<Arguments> _testSum_success_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(), pol(), IntPolynomialCoefficients.ZERO),
+                Arguments.of(pol(1, 2, 0, 5), pol(), pol(1, 2, 0, 5)),
+                Arguments.of(pol(0, 0, -4, 7), pol(0, 0, -4, 2), pol(0, 0, -8, 9)),
+                Arguments.of(pol(0, 12, -4, -32, 8), pol(0, -2, 9, -3, 7), pol(0, 10, 5, -35, 15))
+        );
+    }
+
+    @ParameterizedTest
     @MethodSource("_testMultiplyScalar_success_dataSet")
     public void testMultiplyScalar_success(IntPolynomialCoefficients c, int scalar, IntPolynomialCoefficients product) {
         assertThat(c.multiply(scalar))
