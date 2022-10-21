@@ -74,6 +74,25 @@ public class IntPolynomialCoefficientsTest {
     }
 
     @ParameterizedTest
+    @MethodSource("_testSubtract_success_dataSet")
+    public void testSubtract_success(IntPolynomialCoefficients c1, IntPolynomialCoefficients c2,
+                                     IntPolynomialCoefficients subtrahend) {
+        assertThat(c1.subtract(c2))
+                .isEqualTo(c1.sum(c2.neg()))
+                .isEqualTo(subtrahend);
+    }
+
+    public static Stream<Arguments> _testSubtract_success_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(), pol(), IntPolynomialCoefficients.ZERO),
+                Arguments.of(pol(), pol(1, 2, 0, 5), pol(-1, -2, 0, -5)),
+                Arguments.of(pol(0, 0, -4, 7), pol(0, 0, -4, 2), pol(0, 0, 0, 5)),
+                Arguments.of(pol(0, 12, -4, -32, 8), pol(0, -2, 9, -3, 7), pol(0, 14, -13, -29, 1)),
+                Arguments.of(pol(2, 3, 2), pol(-1, -5, 3, 4), pol(4, 8, -1, -4))
+        );
+    }
+
+    @ParameterizedTest
     @MethodSource("_testMultiplyScalar_success_dataSet")
     public void testMultiplyScalar_success(IntPolynomialCoefficients c, int scalar, IntPolynomialCoefficients product) {
         assertThat(c.multiply(scalar))

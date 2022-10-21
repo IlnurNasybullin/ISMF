@@ -81,6 +81,10 @@ public class IntPolynomialCoefficients {
         return withoutCopying(sum);
     }
 
+    public IntPolynomialCoefficients subtract(IntPolynomialCoefficients subtrahend) {
+        return null;
+    }
+
     public IntPolynomialCoefficients multiply(int scalar) {
         var product = Arrays.stream(c)
                 .map(value -> Math.multiplyExact(value, scalar))
