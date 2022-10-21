@@ -1,6 +1,7 @@
 package test.io.github.ilnurnasybullin.math.polynomial;
 
 import io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients;
+import io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients.QuotientAndRemainder;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -143,6 +144,31 @@ public class IntPolynomialCoefficientsTest {
         return Stream.of(
                 Arguments.of(pol(1, 2, 0, 5), pol(), ArithmeticException.class),
                 Arguments.of(pol(0, 0, 2), pol(0, 3), IllegalArgumentException.class)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("_testDivideAndRemainder_success_dataSet")
+    public void testDivideAndRemainder_success(IntPolynomialCoefficients dividend, IntPolynomialCoefficients divisor,
+                                               QuotientAndRemainder quotientAndRemainder) {
+        var assertions = new SoftAssertions();
+        var actualQuotientAndRemainder = dividend.divideAndRemainder(divisor);
+        assertions.assertThat(actualQuotientAndRemainder)
+                        .isEqualTo(quotientAndRemainder);
+        assertions.assertThat(actualQuotientAndRemainder.quotient()
+                                    .multiply(divisor)
+                                    .sum(actualQuotientAndRemainder.quotient()))
+                        .isEqualTo(dividend);
+        assertions.assertAll();
+    }
+
+    public static Stream<Arguments> _testDivideAndRemainder_success_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(1, 2, 0, 5), IntPolynomialCoefficients.ONE, new QuotientAndRemainder(pol(1, 2, 0, 5), IntPolynomialCoefficients.ZERO)),
+                Arguments.of(pol(-21, -5, 4), pol(-3, 1), new QuotientAndRemainder(pol(7, 4), IntPolynomialCoefficients.ZERO)),
+                Arguments.of(pol(3, 0, 1), pol(-4, 1), new QuotientAndRemainder(pol(4, 1), pol(19))),
+                Arguments.of(pol(28, -46, 27, -10, 1), pol(-7, 1), new QuotientAndRemainder(pol(-4, 6, -3, 1), IntPolynomialCoefficients.ZERO)),
+                Arguments.of(pol(5, 2, 1, 3), pol(1, 2, 1), new QuotientAndRemainder(pol(-5, 3), pol(10, 9)))
         );
     }
 
