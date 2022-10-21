@@ -66,11 +66,7 @@ public class SingleTermPolynomial {
     public static SingleTermPolynomial eye(int maxDegree) {
         int[] coefficients = new int[maxDegree + 1];
         coefficients[maxDegree] = 1;
-        return of(coefficients);
-    }
-
-    public SingleTermPolynomial pow(int degree) {
-        return this;
+        return withoutCopy(coefficients);
     }
 
     public SingleTermPolynomial add(SingleTermPolynomial x) {

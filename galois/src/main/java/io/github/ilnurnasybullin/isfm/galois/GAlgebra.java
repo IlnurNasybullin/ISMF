@@ -20,7 +20,26 @@ public class GAlgebra {
             return reverse(powPolynomial.polynomial());
         }
 
-        return null;
+        return powMod(polynomial, degree);
+    }
+
+    private GPolynomial powMod(SingleTermPolynomial polynomial, int degree) {
+        var result = new GPolynomial(gSpace, SingleTermPolynomial.eye(0));
+        while (degree != 0) {
+            if (isEven(degree)) {
+                degree >>>= 1;
+                polynomial = normalized(polynomial.multiply(polynomial)).polynomial();
+            } else {
+                degree--;
+                result = normalized(result.polynomial().multiply(polynomial));
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isEven(int degree) {
+        return (degree & 1) == 0;
     }
 
     public GPolynomial sum(SingleTermPolynomial x, SingleTermPolynomial y) {

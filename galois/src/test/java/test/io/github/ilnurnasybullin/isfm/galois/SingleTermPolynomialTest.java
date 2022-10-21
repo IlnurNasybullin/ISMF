@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static io.github.ilnurnasybullin.isfm.galois.SingleTermPolynomial.eye;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SingleTermPolynomialTest {
@@ -61,7 +62,8 @@ public class SingleTermPolynomialTest {
                 Arguments.of(pol(-1, 0), pol(1, 0), pol(-1, 0, 0)),
                 Arguments.of(pol(-1), pol(1), pol(-1)),
                 Arguments.of(pol(-4), pol(), pol()),
-                Arguments.of(pol(), pol(), pol())
+                Arguments.of(pol(), pol(), pol()),
+                Arguments.of(eye(0), pol(1, 0, 24), pol(1, 0, 24))
         );
     }
 
