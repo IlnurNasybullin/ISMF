@@ -21,8 +21,21 @@ public class IntPolynomialCoefficients {
         this.c = c;
     }
 
+    public static IntPolynomialCoefficients build(int... c) {
+        return byCopy(c);
+    }
+
     public static IntPolynomialCoefficients of(int[] c) {
         return byCopy(c);
+    }
+
+    public static IntPolynomialCoefficients eye(int maxDegree) {
+        if (maxDegree == 0) {
+            return ONE;
+        }
+
+        var c = new int[maxDegree + 1];
+        return withoutCopying(c);
     }
 
     private static IntPolynomialCoefficients byCopy(int[] array) {

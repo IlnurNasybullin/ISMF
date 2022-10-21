@@ -175,6 +175,19 @@ public class IntPolynomialCoefficientsTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("_testEyeConstruct_exception_dataSet")
+    public <X extends Exception> void testEyeConstruct_exception(int maxDegree, Class<X> exceptionClass) {
+        assertThatThrownBy(() -> IntPolynomialCoefficients.eye(maxDegree))
+                .isInstanceOf(exceptionClass);
+    }
+
+    public static Stream<Arguments> _testEyeConstruct_exception_dataSet() {
+        return Stream.of(
+                Arguments.of(-1, IllegalArgumentException.class)
+        );
+    }
+
     private static int[] ints(int... numbers) {
         return numbers;
     }
