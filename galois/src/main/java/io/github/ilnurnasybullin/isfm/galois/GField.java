@@ -11,6 +11,12 @@ public class GField {
     }
 
     public static GField of(int characteristic, int degree) {
+        if (characteristic < 2) {
+            throw new IllegalArgumentException(
+                    String.format("Galois field can't be created with characteristic = %d < 2!", characteristic)
+            );
+        }
+
         return new GField(characteristic, degree);
     }
 
