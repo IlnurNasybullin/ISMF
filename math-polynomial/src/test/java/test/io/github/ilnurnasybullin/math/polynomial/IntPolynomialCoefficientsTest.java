@@ -29,8 +29,33 @@ public class IntPolynomialCoefficientsTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("_testMultiply_success_dataSet")
+    public void testMultiply_success(IntPolynomialCoefficients m1, IntPolynomialCoefficients m2,
+                                     IntPolynomialCoefficients product) {
+        assertThat(m1.multiply(m2))
+                .isEqualTo(m2.multiply(m1))
+                .isEqualTo(product);
+    }
+
+    public static Stream<Arguments> _testMultiply_success_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(), pol(), IntPolynomialCoefficients.ZERO),
+                Arguments.of(pol(1, 2, 0, 5), pol(), IntPolynomialCoefficients.ZERO),
+                Arguments.of(pol(1, 2, 0, 5), IntPolynomialCoefficients.ONE, pol(1, 2, 0, 5)),
+                Arguments.of(pol(0, 0, 2), pol(0, 3), pol(0, 0, 0, 6)),
+                Arguments.of(pol(-3, 6), pol(5, 2), pol(-15, 24, 12)),
+                Arguments.of(pol(0, 5), pol(0, 7), pol(0, 35)),
+                Arguments.of(pol(3, 5), pol(-15, 7), pol(-45, -54, 35))
+        );
+    }
+
     private static int[] ints(int... numbers) {
         return numbers;
+    }
+
+    private static IntPolynomialCoefficients pol(int... numbers) {
+        return IntPolynomialCoefficients.of(numbers);
     }
 
 }

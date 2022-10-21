@@ -14,6 +14,8 @@ public class IntPolynomialCoefficients {
 
     public final static IntPolynomialCoefficients ZERO = new IntPolynomialCoefficients(new int[]{});
 
+    public final static IntPolynomialCoefficients ONE = new IntPolynomialCoefficients(new int[]{1});
+
     private IntPolynomialCoefficients(int[] c) {
         this.c = c;
     }
@@ -38,6 +40,10 @@ public class IntPolynomialCoefficients {
         }
 
         return Arrays.copyOf(array, nonZeroLeader + 1);
+    }
+
+    public IntPolynomialCoefficients multiply(IntPolynomialCoefficients multiplier) {
+        return null;
     }
 
     @Override
