@@ -30,6 +30,12 @@ public class IntPolynomialCoefficients {
     }
 
     public static IntPolynomialCoefficients eye(int maxDegree) {
+        if (maxDegree < 0) {
+            throw new IllegalArgumentException(
+                    String.format("Polynomials coefficients can't be created with maxDegree = %d", maxDegree)
+            );
+        }
+
         if (maxDegree == 0) {
             return ONE;
         }
