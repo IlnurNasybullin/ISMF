@@ -22,7 +22,9 @@ public class SingleTermPolynomialTest {
         return Stream.of(
                 Arguments.of(pol(1, 2, 0), pol(3, 5, 1), pol(4, 7, 1)),
                 Arguments.of(pol(-2, 3, 8, 0), pol(2, -5, 3), pol(-2, 5, 3, 3)),
-                Arguments.of(pol(5, 6), pol(-5, -6), pol(0, 0))
+                Arguments.of(pol(5, 6), pol(-5, -6), pol(0, 0)),
+                Arguments.of(pol(), pol(), pol()),
+                Arguments.of(pol(1, 2, 9), pol(), pol(1, 2, 9))
         );
     }
 
@@ -37,7 +39,9 @@ public class SingleTermPolynomialTest {
         return Stream.of(
                 Arguments.of(pol(1, 2, 0), pol(3, 5, 1), pol(-2, -3, -1)),
                 Arguments.of(pol(-2, 3, 8, 0), pol(2, -5, 3), pol(-2, 1, 13, -3)),
-                Arguments.of(pol(5, 6), pol(-5, -6), pol(10, 12))
+                Arguments.of(pol(5, 6), pol(-5, -6), pol(10, 12)),
+                Arguments.of(pol(), pol(), pol()),
+                Arguments.of(pol(1, 2, 9), pol(), pol(1, 2, 9))
         );
     }
 
@@ -56,12 +60,29 @@ public class SingleTermPolynomialTest {
                 Arguments.of(pol(1, 1), pol(1, 1), pol(1, 2, 1)),
                 Arguments.of(pol(-1, 0), pol(1, 0), pol(-1, 0, 0)),
                 Arguments.of(pol(-1), pol(1), pol(-1)),
-                Arguments.of(pol(-4), pol(), pol())
+                Arguments.of(pol(-4), pol(), pol()),
+                Arguments.of(pol(), pol(), pol())
         );
     }
 
     private static SingleTermPolynomial pol(int... coefficients) {
         return SingleTermPolynomial.bigEndian(coefficients);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("_testEquals_success_dataSet")
+    public void testEquals_success(int[] x, int[] y) {
+        assertThat(SingleTermPolynomial.of(x))
+                .isEqualTo(SingleTermPolynomial.of(y));
+    }
+
+    public static Stream<Arguments> _testEquals_success_dataSet() {
+        return Stream.of(
+                Arguments.of(new int[]{1}, new int[]{1}),
+                Arguments.of(new int[]{}, new int[]{0, 0, 0}),
+                Arguments.of(new int[]{1, 1, 0}, new int[]{1, 1})
+        );
     }
 
 }

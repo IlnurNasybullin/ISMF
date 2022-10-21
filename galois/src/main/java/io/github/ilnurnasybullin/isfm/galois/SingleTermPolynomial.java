@@ -10,6 +10,8 @@ public class SingleTermPolynomial {
       */
     private final int[] coefficients;
 
+    public final static SingleTermPolynomial ZERO = new SingleTermPolynomial(new int[]{});
+
     private SingleTermPolynomial(int[] coefficients) {
         this.coefficients = coefficients;
     }
@@ -22,11 +24,29 @@ public class SingleTermPolynomial {
     }
 
     private static SingleTermPolynomial byCopy(int[] coefficients) {
-        return new SingleTermPolynomial(Arrays.copyOf(coefficients, coefficients.length));
+        return withoutCopy(Arrays.copyOf(coefficients, coefficients.length));
     }
 
-    private static SingleTermPolynomial withoutCopy(int[] coefficients) {
-        return new SingleTermPolynomial(coefficients);
+    private static int[] normalize(int[] array) {
+        int largestDegree = array.length;
+        while (largestDegree > 0 && array[largestDegree - 1] == 0) {
+            largestDegree--;
+        }
+
+        if (largestDegree == array.length) {
+            return array;
+        }
+
+        return Arrays.copyOf(array, largestDegree);
+    }
+
+    static SingleTermPolynomial withoutCopy(int[] coefficients) {
+        int[] normalized = normalize(coefficients);
+        if (normalized.length == 0) {
+            return ZERO;
+        }
+
+        return new SingleTermPolynomial(normalized);
     }
 
     public static SingleTermPolynomial bigEndian(int[] reversed) {
@@ -81,11 +101,34 @@ public class SingleTermPolynomial {
     }
 
     public SingleTermPolynomial multiply(SingleTermPolynomial x) {
-        return this;
+        var maxDegree = (coefficients.length - 1) + (x.coefficients.length - 1);
+
+        // if their bath empty - equal to zero
+        if (maxDegree < 0) {
+            return ZERO;
+        }
+
+        int[] productPolymers = new int[maxDegree + 1];
+
+        for (int i = 0; i < x.coefficients.length; i++) {
+            for (int j = 0; j < coefficients.length; j++) {
+                productPolymers[i + j] += x.coefficients[i] * coefficients[j];
+            }
+        }
+
+        return withoutCopy(productPolymers);
     }
 
     public SingleTermPolynomial divide(SingleTermPolynomial x) {
         return this;
+    }
+
+    public int[] coefficients() {
+        return Arrays.copyOf(coefficients, coefficients.length);
+    }
+
+    int[] coefficientsRef() {
+        return coefficients;
     }
 
     @Override
@@ -99,5 +142,12 @@ public class SingleTermPolynomial {
     @Override
     public int hashCode() {
         return Arrays.hashCode(coefficients);
+    }
+
+    @Override
+    public String toString() {
+        return "SingleTermPolynomial{" +
+                "coefficients=" + Arrays.toString(coefficients) +
+                '}';
     }
 }

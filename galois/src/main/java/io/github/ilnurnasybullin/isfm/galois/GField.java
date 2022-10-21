@@ -13,15 +13,21 @@ public class GField {
         this.power = power;
     }
 
-    public static GField of(int characteristic, int power) {
+    public static GField of(int characteristic, int degree) {
         checkOnPrime(characteristic);
-        checkOnPositive(power);
+        checkOnPositive(degree);
 
-        return new GField(characteristic, power);
+        return new GField(characteristic, degree);
     }
 
-    private static void checkOnPositive(int power) {
+    private static void checkOnPositive(int degree) {
+        if (degree <= 0) {
+            throw new IllegalArgumentException(String.format("Degree %d is cannot be non positive number!", degree));
+        }
+    }
 
+    public int characteristic() {
+        return characteristic;
     }
 
     // used BigInteger's inner testing on probability

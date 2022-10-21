@@ -1,5 +1,7 @@
 package io.github.ilnurnasybullin.isfm.galois;
 
+import java.util.Arrays;
+
 public class GAlgebra {
 
     private final GSpace gSpace;
@@ -19,6 +21,66 @@ public class GAlgebra {
         }
 
         return null;
+    }
+
+    public GPolynomial sum(SingleTermPolynomial x, SingleTermPolynomial y) {
+        var sum = x.add(y);
+        return normalized(sum);
+    }
+
+    public GPolynomial normalized(SingleTermPolynomial polynomial) {
+        int[] normalized = polynomial.coefficients();
+
+        int handleDegree = normalized.length;
+        int baseDegree = baseDegree();
+        var base = gSpace.base();
+        while (handleDegree >= baseDegree) {
+            var px = SingleTermPolynomial.withoutCopy(slice(normalized, handleDegree - baseDegree, handleDegree));
+            var subtractPx = px.subtract(base).coefficientsRef();
+
+            int i = 0;
+            for (; i < subtractPx.length; i++) {
+                normalized[handleDegree - baseDegree + i] = subtractPx[i];
+            }
+
+            for (; i < baseDegree; i++) {
+                normalized[handleDegree - baseDegree + i] = 0;
+            }
+
+            normalizeByField(normalized, handleDegree - baseDegree, handleDegree);
+
+            // next handleDegree
+            int j = handleDegree - 1;
+            while (j >= 0 && normalized[j] == 0) {
+                handleDegree--;
+                j--;
+            }
+        }
+
+        normalizeByField(normalized, 0, handleDegree);
+
+        return new GPolynomial(gSpace, SingleTermPolynomial.withoutCopy(normalized));
+    }
+
+    private void normalizeByField(int[] array, int from, int to) {
+        int mod = gSpace.field().characteristic();
+
+        for (int i = from; i < to; i++) {
+            int remains = array[i] % mod;
+
+            if (remains < 0) {
+                remains += mod;
+            }
+            array[i] = remains;
+        }
+    }
+
+    private static int[] slice(int[] array, int from, int to) {
+        return Arrays.copyOfRange(array, from, to);
+    }
+
+    private int baseDegree() {
+        return gSpace.base().coefficientsRef().length;
     }
 
     public GPolynomial reverse(SingleTermPolynomial polynomial) {
