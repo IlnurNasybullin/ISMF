@@ -68,7 +68,8 @@ public class IntPolynomialCoefficientsTest {
                 Arguments.of(pol(), pol(), IntPolynomialCoefficients.ZERO),
                 Arguments.of(pol(1, 2, 0, 5), pol(), pol(1, 2, 0, 5)),
                 Arguments.of(pol(0, 0, -4, 7), pol(0, 0, -4, 2), pol(0, 0, -8, 9)),
-                Arguments.of(pol(0, 12, -4, -32, 8), pol(0, -2, 9, -3, 7), pol(0, 10, 5, -35, 15))
+                Arguments.of(pol(0, 12, -4, -32, 8), pol(0, -2, 9, -3, 7), pol(0, 10, 5, -35, 15)),
+                Arguments.of(pol(2, 3, 2, 4), pol(-1, -5, 3), pol(1, -2, 5, 4))
         );
     }
 
