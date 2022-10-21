@@ -100,6 +100,14 @@ public class SingleTermPolynomial {
         return polynomialTermOperating(x, Math::subtractExact);
     }
 
+    public SingleTermPolynomial abs() {
+        int[] absPolynomial = Arrays.stream(coefficients)
+                .map(Math::absExact)
+                .toArray();
+
+        return SingleTermPolynomial.withoutCopy(absPolynomial);
+    }
+
     public SingleTermPolynomial multiply(SingleTermPolynomial x) {
         var maxDegree = (coefficients.length - 1) + (x.coefficients.length - 1);
 
