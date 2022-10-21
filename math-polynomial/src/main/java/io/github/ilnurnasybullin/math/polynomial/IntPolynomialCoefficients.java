@@ -82,7 +82,7 @@ public class IntPolynomialCoefficients {
     }
 
     public IntPolynomialCoefficients subtract(IntPolynomialCoefficients subtrahend) {
-        return null;
+        return sum(subtrahend.neg());
     }
 
     public IntPolynomialCoefficients multiply(int scalar) {
