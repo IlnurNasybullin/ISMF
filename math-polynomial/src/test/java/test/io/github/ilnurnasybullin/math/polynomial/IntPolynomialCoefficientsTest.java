@@ -168,7 +168,8 @@ public class IntPolynomialCoefficientsTest {
                 Arguments.of(pol(-21, -5, 4), pol(-3, 1), new QuotientAndRemainder(pol(7, 4), IntPolynomialCoefficients.ZERO)),
                 Arguments.of(pol(3, 0, 1), pol(-4, 1), new QuotientAndRemainder(pol(4, 1), pol(19))),
                 Arguments.of(pol(28, -46, 27, -10, 1), pol(-7, 1), new QuotientAndRemainder(pol(-4, 6, -3, 1), IntPolynomialCoefficients.ZERO)),
-                Arguments.of(pol(5, 2, 1, 3), pol(1, 2, 1), new QuotientAndRemainder(pol(-5, 3), pol(10, 9)))
+                Arguments.of(pol(5, 2, 1, 3), pol(1, 2, 1), new QuotientAndRemainder(pol(-5, 3), pol(10, 9))),
+                Arguments.of(pol(-3, 1), pol(-21, -5, 1), new QuotientAndRemainder(IntPolynomialCoefficients.ZERO, pol(-3, 1)))
         );
     }
 
