@@ -43,6 +43,10 @@ public class IntPolynomialCoefficients {
         return Arrays.copyOf(array, nonZeroLeader + 1);
     }
 
+    public IntPolynomialCoefficients neg() {
+        return this;
+    }
+
     public IntPolynomialCoefficients multiply(IntPolynomialCoefficients multiplier) {
         if (c.length == 0 || multiplier.c.length == 0) {
             return ZERO;

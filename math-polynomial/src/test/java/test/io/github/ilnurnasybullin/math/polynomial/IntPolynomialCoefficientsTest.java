@@ -1,6 +1,7 @@
 package test.io.github.ilnurnasybullin.math.polynomial;
 
 import io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -26,6 +27,30 @@ public class IntPolynomialCoefficientsTest {
                 Arguments.of(ints(-123, 2), ints(-123, 2, 0)),
                 Arguments.of(ints(0), ints(0, 0)),
                 Arguments.of(ints(0, 0), ints())
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("_testNeg_success_dataSet")
+    public void testNeg_success(IntPolynomialCoefficients c, IntPolynomialCoefficients negC) {
+        var softly = new SoftAssertions();
+        softly.assertThat(c.neg())
+                .isEqualTo(negC);
+
+        softly.assertThat(negC.neg())
+                .isEqualTo(c);
+
+        softly.assertAll();
+    }
+
+    public static Stream<Arguments> _testNeg_success_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(), IntPolynomialCoefficients.ZERO),
+                Arguments.of(pol(1, 2, 0, 5), pol(-1, -2, 0, -5)),
+                Arguments.of(IntPolynomialCoefficients.ONE, pol(-1)),
+                Arguments.of(pol(0, 0, 2), pol(0, 0, -2)),
+                Arguments.of(pol(-3, 6), pol(3, -6)),
+                Arguments.of(pol(5), pol(-5))
         );
     }
 
