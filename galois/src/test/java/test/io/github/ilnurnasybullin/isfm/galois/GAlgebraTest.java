@@ -63,14 +63,37 @@ public class GAlgebraTest {
         var gAlgebra_3_2 = GAlgebra.of(gSpace_3_2);
 
         return Stream.of(
-                Arguments.of(gAlgebra_2_3, pol(0, 0, 1), pol(0, 0, 1), gPol(gSpace_2_3, 0)),
-                Arguments.of(gAlgebra_2_3, pol(0, 0, 1), pol(0, 1, 0), gPol(gSpace_2_3, 0, 1, 1)),
-                Arguments.of(gAlgebra_2_3, pol(0, 0, 1), pol(1, 1, 1), gPol(gSpace_2_3, 1, 1, 0)),
-                Arguments.of(gAlgebra_2_3, pol(0, 1, 0), pol(0, 1, 0), gPol(gSpace_2_3, 0)),
-                Arguments.of(gAlgebra_2_3, pol(1, 1, 1), pol(0, 1, 0), gPol(gSpace_2_3, 1, 0, 1)),
-                Arguments.of(gAlgebra_2_3, pol(1, 1, 1), pol(1, 1, 1), gPol(gSpace_2_3, 0)),
-                Arguments.of(gAlgebra_2_3, pol(0, 1, 1), pol(1, 0, 1), gPol(gSpace_2_3, 1, 1, 0)),
-                Arguments.of(gAlgebra_3_2, pol(2, 2), pol(2, 2), gPol(gSpace_3_2, 1, 1))
+                Arguments.of(gAlgebra_2_3, pol(0, 0, 1), pol(0, 0, 1), gPol(gSpace_2_3, pol(0))),
+                Arguments.of(gAlgebra_2_3, pol(0, 0, 1), pol(0, 1, 0), gPol(gSpace_2_3, pol(0, 1, 1))),
+                Arguments.of(gAlgebra_2_3, pol(0, 0, 1), pol(1, 1, 1), gPol(gSpace_2_3, pol(1, 1, 0))),
+                Arguments.of(gAlgebra_2_3, pol(0, 1, 0), pol(0, 1, 0), gPol(gSpace_2_3, pol(0))),
+                Arguments.of(gAlgebra_2_3, pol(1, 1, 1), pol(0, 1, 0), gPol(gSpace_2_3, pol(1, 0, 1))),
+                Arguments.of(gAlgebra_2_3, pol(1, 1, 1), pol(1, 1, 1), gPol(gSpace_2_3, pol(0))),
+                Arguments.of(gAlgebra_2_3, pol(0, 1, 1), pol(1, 0, 1), gPol(gSpace_2_3, pol(1, 1, 0))),
+                Arguments.of(gAlgebra_3_2, pol(2, 2), pol(2, 2), gPol(gSpace_3_2, pol(1, 1)))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("_testMultiply_success_dataSet")
+    public void testMultiply_success(GAlgebra algebra, SingleTermPolynomial x, SingleTermPolynomial y, GPolynomial product) {
+        assertThat(algebra.multiply(x, y))
+                .isEqualTo(product);
+    }
+
+    public static Stream<Arguments> _testMultiply_success_dataSet() {
+        var field_2_3 = GField.of(2, 3);
+        var base_2_3 = pol(1, 0, 1, 1);
+        var gSpace_2_3 = new GSpace(field_2_3, base_2_3);
+        var gAlgebra_2_3 = GAlgebra.of(gSpace_2_3);
+
+        return Stream.of(
+                Arguments.of(gAlgebra_2_3, pol(), pol(), gPol(gSpace_2_3, pol(0))),
+                Arguments.of(gAlgebra_2_3, pol(), pol(1, 3), gPol(gSpace_2_3, pol())),
+                Arguments.of(gAlgebra_2_3, pol(1, 0, 1, 1), pol(), gPol(gSpace_2_3, pol())),
+                Arguments.of(gAlgebra_2_3, pol(2, 1), pol(1, 5), gPol(gSpace_2_3, pol(1, 1))),
+                Arguments.of(gAlgebra_2_3, eye(2), eye(3), gPol(gSpace_2_3, pol(1, 1, 1))),
+                Arguments.of(gAlgebra_2_3, pol(0, 1, 1), pol(1, 0, 1), gPol(gSpace_2_3, pol(1, 0, 0)))
         );
     }
 
@@ -88,13 +111,14 @@ public class GAlgebraTest {
         var gAlgebra_2_3 = GAlgebra.of(gSpace_2_3);
 
         return Stream.of(
-                Arguments.of(gAlgebra_2_3, eye(1), gPol(gSpace_2_3, 1, 0)),
-                Arguments.of(gAlgebra_2_3, eye(2), gPol(gSpace_2_3, 1, 0, 0)),
-                Arguments.of(gAlgebra_2_3, eye(3), gPol(gSpace_2_3, 0, 1, 1)),
-                Arguments.of(gAlgebra_2_3, eye(4), gPol(gSpace_2_3, 1, 1, 0)),
-                Arguments.of(gAlgebra_2_3, eye(5), gPol(gSpace_2_3, 1, 1, 1)),
-                Arguments.of(gAlgebra_2_3, eye(6), gPol(gSpace_2_3, 1, 0, 1)),
-                Arguments.of(gAlgebra_2_3, eye(7), gPol(gSpace_2_3, 0, 0, 1))
+                Arguments.of(gAlgebra_2_3, eye(1), gPol(gSpace_2_3, pol(1, 0))),
+                Arguments.of(gAlgebra_2_3, eye(2), gPol(gSpace_2_3, pol(1, 0, 0))),
+                Arguments.of(gAlgebra_2_3, eye(3), gPol(gSpace_2_3, pol(0, 1, 1))),
+                Arguments.of(gAlgebra_2_3, eye(4), gPol(gSpace_2_3, pol(1, 1, 0))),
+                Arguments.of(gAlgebra_2_3, eye(5), gPol(gSpace_2_3, pol(1, 1, 1))),
+                Arguments.of(gAlgebra_2_3, eye(6), gPol(gSpace_2_3, pol(1, 0, 1))),
+                Arguments.of(gAlgebra_2_3, eye(7), gPol(gSpace_2_3, pol(0, 0, 1))),
+                Arguments.of(gAlgebra_2_3, pol(2, 11, 5), gPol(gSpace_2_3, pol(1, 1)))
         );
     }
 
@@ -102,7 +126,7 @@ public class GAlgebraTest {
         return SingleTermPolynomial.bigEndian(coefficients);
     }
 
-    private static GPolynomial gPol(GSpace gSpace, int... coefficients) {
-        return new GPolynomial(gSpace, pol(coefficients));
+    private static GPolynomial gPol(GSpace gSpace, SingleTermPolynomial polynomial) {
+        return new GPolynomial(gSpace, polynomial);
     }
 }

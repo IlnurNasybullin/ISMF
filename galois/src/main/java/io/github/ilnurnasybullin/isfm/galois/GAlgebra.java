@@ -28,6 +28,11 @@ public class GAlgebra {
         return normalized(sum);
     }
 
+    public GPolynomial multiply(SingleTermPolynomial x, SingleTermPolynomial y) {
+        var product = x.multiply(y);
+        return normalized(product);
+    }
+
     public GPolynomial normalized(SingleTermPolynomial polynomial) {
         int[] normalized = polynomial.coefficients();
 
