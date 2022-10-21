@@ -157,7 +157,7 @@ public class IntPolynomialCoefficientsTest {
                         .isEqualTo(quotientAndRemainder);
         assertions.assertThat(actualQuotientAndRemainder.quotient()
                                     .multiply(divisor)
-                                    .sum(actualQuotientAndRemainder.quotient()))
+                                    .sum(actualQuotientAndRemainder.remainder()))
                         .isEqualTo(dividend);
         assertions.assertAll();
     }

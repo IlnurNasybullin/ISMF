@@ -121,9 +121,9 @@ public class IntPolynomialCoefficients {
             );
         }
 
-//        if (divisor.c.length > c.length) {
-//            return new QuotientAndRemainder(ZERO, this);
-//        }
+        if (divisor.c.length > c.length) {
+            return new QuotientAndRemainder(ZERO, this);
+        }
 
         return null;
     }
