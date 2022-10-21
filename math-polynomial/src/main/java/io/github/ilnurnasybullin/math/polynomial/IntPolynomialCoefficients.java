@@ -54,6 +54,10 @@ public class IntPolynomialCoefficients {
         return normalized(array);
     }
 
+    private int leaderDegree() {
+        return c.length - 1;
+    }
+
     public IntPolynomialCoefficients neg() {
         var negative = Arrays.stream(c)
                 .map(Math::negateExact)
@@ -98,7 +102,7 @@ public class IntPolynomialCoefficients {
             return ZERO;
         }
 
-        int productSize = (c.length - 1) + (multiplier.c.length - 1);
+        int productSize = leaderDegree() + multiplier.leaderDegree();
         var product = new int[productSize + 1];
 
         for (int i = 0; i < c.length; i++) {
@@ -115,7 +119,7 @@ public class IntPolynomialCoefficients {
             throw new ArithmeticException("Division on zero polynomial!");
         }
 
-        if (divisor.c[divisor.c.length - 1] != 1) {
+        if (divisor.c[divisor.leaderDegree()] != 1) {
             throw new IllegalArgumentException(
                     String.format("Polynomial %s is can't be divisor in general case, because leader coefficient is not equal 1", divisor)
             );
@@ -125,7 +129,22 @@ public class IntPolynomialCoefficients {
             return new QuotientAndRemainder(ZERO, this);
         }
 
-        return null;
+        int cursor = c.length - 1;
+        int divisorSize = divisor.c.length;
+        var remainder = Arrays.copyOf(c, c.length);
+        var quotient = new int[leaderDegree() - divisor.leaderDegree() + 1];
+        int quotientIndex = quotient.length - 1;
+        while (cursor + 1 >= divisorSize) {
+            int k = remainder[cursor];
+            quotient[quotientIndex] = k;
+            for (int i = 0; i < divisorSize; i++) {
+                remainder[cursor - i] -= k * divisor.c[divisorSize - 1 - i];
+            }
+            cursor--;
+            quotientIndex--;
+        }
+
+        return new QuotientAndRemainder(withoutCopying(quotient), withoutCopying(remainder));
     }
 
     public record QuotientAndRemainder(IntPolynomialCoefficients quotient, IntPolynomialCoefficients remainder) { }
