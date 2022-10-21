@@ -12,12 +12,32 @@ public class IntPolynomialCoefficients {
      */
     private final int[] c;
 
+    public final static IntPolynomialCoefficients ZERO = new IntPolynomialCoefficients(new int[]{});
+
     private IntPolynomialCoefficients(int[] c) {
         this.c = c;
     }
 
     public static IntPolynomialCoefficients of(int[] c) {
-        return new IntPolynomialCoefficients(c);
+        int[] normalized = skipZeroLeaders(c);
+        if (normalized.length == 0) {
+            return ZERO;
+        }
+
+        return new IntPolynomialCoefficients(normalized);
+    }
+
+    private static int[] skipZeroLeaders(int[] array) {
+        int nonZeroLeader = array.length - 1;
+        while (nonZeroLeader >= 0 && array[nonZeroLeader] == 0) {
+            nonZeroLeader--;
+        }
+
+        if (nonZeroLeader == array.length - 1) {
+            return array;
+        }
+
+        return Arrays.copyOf(array, nonZeroLeader + 1);
     }
 
     @Override
