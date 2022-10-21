@@ -110,6 +110,12 @@ public class IntPolynomialCoefficients {
         return withoutCopying(product);
     }
 
+    public QuotientAndRemainder divideAndRemainder(IntPolynomialCoefficients divisor) {
+        return null;
+    }
+
+    public record QuotientAndRemainder(IntPolynomialCoefficients quotient, IntPolynomialCoefficients remainder) { }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class IntPolynomialCoefficientsTest {
 
@@ -126,6 +127,22 @@ public class IntPolynomialCoefficientsTest {
                 Arguments.of(pol(-3, 6), pol(5, 2), pol(-15, 24, 12)),
                 Arguments.of(pol(5), pol(7), pol(35)),
                 Arguments.of(pol(3, 5), pol(-15, 7), pol(-45, -54, 35))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("_testDivideAndRemainder_exception_dataSet")
+    public <X extends Exception> void testDivideAndRemainder_exception(IntPolynomialCoefficients dividend,
+                                                                       IntPolynomialCoefficients divisor,
+                                                                       Class<X> exceptionClass) {
+        assertThatThrownBy(() -> dividend.divideAndRemainder(divisor))
+                .hasCauseInstanceOf(exceptionClass);
+    }
+
+    public static Stream<Arguments> _testDivideAndRemainder_exception_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(1, 2, 0, 5), pol(), ArithmeticException.class),
+                Arguments.of(pol(0, 0, 2), pol(0, 3), IllegalArgumentException.class)
         );
     }
 
