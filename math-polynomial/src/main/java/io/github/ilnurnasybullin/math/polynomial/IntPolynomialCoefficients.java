@@ -54,8 +54,12 @@ public class IntPolynomialCoefficients {
         return normalized(array);
     }
 
-    private int leaderDegree() {
+    public int leaderDegree() {
         return c.length - 1;
+    }
+
+    public int c(int degree) {
+        return c[degree];
     }
 
     public IntPolynomialCoefficients neg() {
