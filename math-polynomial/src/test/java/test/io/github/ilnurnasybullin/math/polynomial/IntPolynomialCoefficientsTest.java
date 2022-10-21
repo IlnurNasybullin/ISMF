@@ -45,7 +45,7 @@ public class IntPolynomialCoefficientsTest {
                 Arguments.of(pol(1, 2, 0, 5), IntPolynomialCoefficients.ONE, pol(1, 2, 0, 5)),
                 Arguments.of(pol(0, 0, 2), pol(0, 3), pol(0, 0, 0, 6)),
                 Arguments.of(pol(-3, 6), pol(5, 2), pol(-15, 24, 12)),
-                Arguments.of(pol(0, 5), pol(0, 7), pol(0, 35)),
+                Arguments.of(pol(5), pol(7), pol(35)),
                 Arguments.of(pol(3, 5), pol(-15, 7), pol(-45, -54, 35))
         );
     }

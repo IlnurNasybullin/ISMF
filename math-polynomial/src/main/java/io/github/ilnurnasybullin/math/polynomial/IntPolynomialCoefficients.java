@@ -1,6 +1,7 @@
 package io.github.ilnurnasybullin.math.polynomial;
 
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 /**
  * Immutable class
@@ -43,7 +44,20 @@ public class IntPolynomialCoefficients {
     }
 
     public IntPolynomialCoefficients multiply(IntPolynomialCoefficients multiplier) {
-        return null;
+        if (c.length == 0 || multiplier.c.length == 0) {
+            return ZERO;
+        }
+
+        int productSize = (c.length - 1) + (multiplier.c.length - 1);
+        var product = new int[productSize + 1];
+
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < multiplier.c.length; j++) {
+                product[i + j] += c[i] * multiplier.c[j];
+            }
+        }
+
+        return new IntPolynomialCoefficients(product);
     }
 
     @Override
@@ -57,5 +71,15 @@ public class IntPolynomialCoefficients {
     @Override
     public int hashCode() {
         return Arrays.hashCode(c);
+    }
+
+    @Override
+    public String toString() {
+        var joiner = new StringJoiner(" + ");
+        for (int i = c.length - 1; i >= 0; i--) {
+            joiner.add(String.format("%dx_%d", c[i], i + 1));
+        }
+
+        return joiner.toString();
     }
 }
