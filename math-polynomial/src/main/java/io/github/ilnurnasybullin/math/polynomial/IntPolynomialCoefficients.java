@@ -63,7 +63,22 @@ public class IntPolynomialCoefficients {
     }
 
     public IntPolynomialCoefficients sum(IntPolynomialCoefficients summand) {
-        return null;
+        int[] lessSummand;
+        int[] sum;
+
+        if (summand.c.length > c.length) {
+            sum = Arrays.copyOf(summand.c, summand.c.length);
+            lessSummand = c;
+        } else {
+            sum = Arrays.copyOf(c, c.length);
+            lessSummand = summand.c;
+        }
+
+        for (int i = 0; i < lessSummand.length; i++) {
+            sum[i] += lessSummand[i];
+        }
+
+        return withoutCopying(sum);
     }
 
     public IntPolynomialCoefficients multiply(int scalar) {
