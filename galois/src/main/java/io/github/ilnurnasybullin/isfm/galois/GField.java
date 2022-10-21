@@ -20,4 +20,8 @@ public class GField {
         return new GField(characteristic, degree);
     }
 
+    public int characteristic() {
+        return characteristic;
+    }
+
 }

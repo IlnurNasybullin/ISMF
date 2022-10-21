@@ -30,4 +30,12 @@ public class GSpace {
         return new GSpace(gField, base);
     }
 
+    public int mod() {
+        return field.characteristic();
+    }
+
+    public IntPolynomialCoefficients base() {
+        return base;
+    }
+
 }

@@ -41,6 +41,7 @@ public class IntPolynomialCoefficients {
         }
 
         var c = new int[maxDegree + 1];
+        c[maxDegree] = 1;
         return withoutCopying(c);
     }
 
@@ -81,6 +82,10 @@ public class IntPolynomialCoefficients {
         return c[degree];
     }
 
+    public int[] c() {
+        return Arrays.copyOf(c, c.length);
+    }
+
     public IntPolynomialCoefficients neg() {
         var negative = Arrays.stream(c)
                 .map(Math::negateExact)
@@ -97,7 +102,7 @@ public class IntPolynomialCoefficients {
             sum = Arrays.copyOf(summand.c, summand.c.length);
             lessSummand = c;
         } else {
-            sum = Arrays.copyOf(c, c.length);
+            sum = c();
             lessSummand = summand.c;
         }
 
@@ -154,7 +159,7 @@ public class IntPolynomialCoefficients {
 
         int cursor = c.length - 1;
         int divisorSize = divisor.c.length;
-        var remainder = Arrays.copyOf(c, c.length);
+        var remainder = c();
         var quotient = new int[leaderDegree() - divisor.leaderDegree() + 1];
         int quotientIndex = quotient.length - 1;
         while (cursor + 1 >= divisorSize) {
