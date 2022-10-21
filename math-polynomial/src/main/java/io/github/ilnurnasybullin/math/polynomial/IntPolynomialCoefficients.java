@@ -63,11 +63,11 @@ public class IntPolynomialCoefficients {
     }
 
     public IntPolynomialCoefficients multiply(int scalar) {
-//        var product = Arrays.stream(c)
-//                .map(value -> Math.multiplyExact(value, scalar))
-//                .toArray();
+        var product = Arrays.stream(c)
+                .map(value -> Math.multiplyExact(value, scalar))
+                .toArray();
 
-        return null;
+        return withoutCopying(product);
     }
 
     public IntPolynomialCoefficients multiply(IntPolynomialCoefficients multiplier) {
