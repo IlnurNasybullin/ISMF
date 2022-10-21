@@ -136,7 +136,7 @@ public class IntPolynomialCoefficientsTest {
                                                                        IntPolynomialCoefficients divisor,
                                                                        Class<X> exceptionClass) {
         assertThatThrownBy(() -> dividend.divideAndRemainder(divisor))
-                .hasCauseInstanceOf(exceptionClass);
+                .isInstanceOf(exceptionClass);
     }
 
     public static Stream<Arguments> _testDivideAndRemainder_exception_dataSet() {

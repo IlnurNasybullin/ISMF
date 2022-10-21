@@ -111,6 +111,16 @@ public class IntPolynomialCoefficients {
     }
 
     public QuotientAndRemainder divideAndRemainder(IntPolynomialCoefficients divisor) {
+        if (ZERO.equals(divisor)) {
+            throw new ArithmeticException("Division on zero polynomial!");
+        }
+
+        if (divisor.c[divisor.c.length - 1] != 1) {
+            throw new IllegalArgumentException(
+                    String.format("Polynomial %s is can't be divisor in general case, because leader coefficient is not equal 1", divisor)
+            );
+        }
+
         return null;
     }
 
@@ -131,6 +141,10 @@ public class IntPolynomialCoefficients {
 
     @Override
     public String toString() {
+        if (ZERO.equals(this)) {
+            return "0";
+        }
+
         var joiner = new StringJoiner(" + ");
         for (int i = c.length - 1; i >= 0; i--) {
             joiner.add(String.format("%dx_%d", c[i], i + 1));
