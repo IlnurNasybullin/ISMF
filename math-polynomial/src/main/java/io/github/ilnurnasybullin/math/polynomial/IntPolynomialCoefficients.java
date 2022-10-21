@@ -22,14 +22,21 @@ public class IntPolynomialCoefficients {
     }
 
     public static IntPolynomialCoefficients of(int[] c) {
-        int[] normalized = skipZeroLeaders(c);
+        return byCopy(c);
+    }
+
+    private static IntPolynomialCoefficients byCopy(int[] array) {
+        return normalized(Arrays.copyOf(array, array.length));
+    }
+
+    private static IntPolynomialCoefficients normalized(int[] array) {
+        int[] normalized = skipZeroLeaders(array);
         if (normalized.length == 0) {
             return ZERO;
         }
 
         return new IntPolynomialCoefficients(normalized);
     }
-
     private static int[] skipZeroLeaders(int[] array) {
         int nonZeroLeader = array.length - 1;
         while (nonZeroLeader >= 0 && array[nonZeroLeader] == 0) {
@@ -43,8 +50,16 @@ public class IntPolynomialCoefficients {
         return Arrays.copyOf(array, nonZeroLeader + 1);
     }
 
+    private static IntPolynomialCoefficients withoutCopying(int[] array) {
+        return normalized(array);
+    }
+
     public IntPolynomialCoefficients neg() {
-        return this;
+        var negative = Arrays.stream(c)
+                .map(Math::negateExact)
+                .toArray();
+
+        return withoutCopying(negative);
     }
 
     public IntPolynomialCoefficients multiply(IntPolynomialCoefficients multiplier) {
@@ -61,7 +76,7 @@ public class IntPolynomialCoefficients {
             }
         }
 
-        return new IntPolynomialCoefficients(product);
+        return withoutCopying(product);
     }
 
     @Override
