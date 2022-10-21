@@ -55,6 +55,22 @@ public class IntPolynomialCoefficientsTest {
     }
 
     @ParameterizedTest
+    @MethodSource("_testMultiplyScalar_success_dataSet")
+    public void testMultiplyScalar_success(IntPolynomialCoefficients c, int scalar, IntPolynomialCoefficients product) {
+        assertThat(c.multiply(scalar))
+                .isEqualTo(product);
+    }
+
+    public static Stream<Arguments> _testMultiplyScalar_success_dataSet() {
+        return Stream.of(
+                Arguments.of(pol(), 5, IntPolynomialCoefficients.ZERO),
+                Arguments.of(IntPolynomialCoefficients.ONE, -1, pol(-1)),
+                Arguments.of(pol(-10, 5, -3, 2), 2, pol(-20, 10, -6, 4)),
+                Arguments.of(pol(5, -6, 3), -3, pol(-15, 18, -9))
+        );
+    }
+
+    @ParameterizedTest
     @MethodSource("_testMultiply_success_dataSet")
     public void testMultiply_success(IntPolynomialCoefficients m1, IntPolynomialCoefficients m2,
                                      IntPolynomialCoefficients product) {
