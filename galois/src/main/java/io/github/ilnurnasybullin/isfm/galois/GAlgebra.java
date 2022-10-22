@@ -81,4 +81,13 @@ public class GAlgebra {
         return normalization(reverse).coefficients();
     }
 
+    /**
+     * Деление полиномов в текущем линейном пространстве
+     * @implNote реализовано через нахождение обратного элемента для делителя-полинома
+     */
+    public IntPolynomialCoefficients divide(IntPolynomialCoefficients dividend, IntPolynomialCoefficients divisor) {
+//        return normalization(a.multiply(reverse(b))).coefficients();
+        return null;
+    }
+
 }

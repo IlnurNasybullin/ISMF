@@ -84,6 +84,30 @@ public class GAlgebraTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("_testDivide_success_dataSet")
+    public void testDivide_success(GAlgebra algebra, IntPolynomialCoefficients dividend, IntPolynomialCoefficients divisor,
+                                   IntPolynomialCoefficients quotient) {
+        var assertions = new SoftAssertions();
+        assertThat(algebra.divide(dividend, divisor))
+                .isEqualTo(quotient)
+                .isEqualTo(algebra.multiply(divisor, algebra.reverse(divisor)));
+        assertThat(algebra.multiply(quotient, divisor))
+                .isEqualTo(algebra.normalization(dividend));
+        assertions.assertAll();
+    }
+
+    public static Stream<Arguments> _testDivide_success_dataSet() {
+        var algebra_2_3 = GAlgebra.of(space(2, 3, build(1, 1, 0, 1)));
+
+        return Stream.of(
+                Arguments.of(algebra_2_3, build(1, 1), build(1, 0, 1), build(0, 1, 1)),
+                Arguments.of(algebra_2_3, eye(4), eye(3), eye(1)),
+                Arguments.of(algebra_2_3, eye(6), eye(3), build(1, 1)),
+                Arguments.of(algebra_2_3, eye(4), eye(2), eye(2))
+        );
+    }
+
     private static GSpace space(int characteristic, int degree, IntPolynomialCoefficients base) {
         return GSpace.of(
                 GField.of(characteristic, degree), base
