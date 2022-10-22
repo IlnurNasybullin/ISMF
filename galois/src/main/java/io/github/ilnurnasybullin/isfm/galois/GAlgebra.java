@@ -2,8 +2,15 @@ package io.github.ilnurnasybullin.isfm.galois;
 
 import io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients;
 
+/**
+ * Класс алгебры над заданным линейным пространством
+ * @author Насыбуллин Ильнур Анасович (гр. 09-275)
+ */
 public class GAlgebra {
 
+    /**
+     * Линейное пространство
+     */
     private final GSpace space;
 
     private GAlgebra(GSpace space) {
@@ -14,6 +21,9 @@ public class GAlgebra {
         return new GAlgebra(space);
     }
 
+    /**
+     * Нормализация по модулю коэффициентов полинома
+     */
     public GIntPolynomialCoefficients normalization(IntPolynomialCoefficients polynomial) {
         var remainders = polynomial.divideAndRemainder(space.base()).remainder().c();
         int mod = space.mod();
@@ -29,6 +39,9 @@ public class GAlgebra {
         return new GIntPolynomialCoefficients(space, IntPolynomialCoefficients.of(remainders));
     }
 
+    /**
+     * Представление полинома в десятичной системе счисления
+     */
     public int toDecimal(IntPolynomialCoefficients polynomial) {
         var normalized = normalization(polynomial).coefficients();
 
@@ -40,6 +53,20 @@ public class GAlgebra {
         }
 
         return accumulator;
+    }
+
+    /**
+     * Суммирование полиномов в текущем линейном пространстве
+     */
+    public IntPolynomialCoefficients sum(IntPolynomialCoefficients c1, IntPolynomialCoefficients c2) {
+        return normalization(c1.sum(c2)).coefficients();
+    }
+
+    /**
+     * Перемножением полиномов в текущем линейном пространстве
+     */
+    public IntPolynomialCoefficients multiply(IntPolynomialCoefficients c1, IntPolynomialCoefficients c2) {
+        return normalization(c1.multiply(c2)).coefficients();
     }
 
 }

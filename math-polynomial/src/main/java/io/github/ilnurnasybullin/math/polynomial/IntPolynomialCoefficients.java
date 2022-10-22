@@ -4,12 +4,13 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 /**
- * Immutable class
+ * Класс, представляющий собой полином (точнее, коэффициенты полинома)
+ * @author Насыбуллин Ильнур Анасович (гр. 09-275)
  */
 public class IntPolynomialCoefficients {
 
     /**
-     * little endian order: c[0]x_0 + c[1]x_1 + ... c[i]x_i
+     * Коэффициенты полинома в порядке little endian (от младших к старшим): c[0]x_0 + c[1]x_1 + ... c[i]x_i
      */
     private final int[] c;
 
@@ -29,6 +30,9 @@ public class IntPolynomialCoefficients {
         return byCopy(c);
     }
 
+    /**
+     * Статический метод для создания единичного полинома с заданным старшим разрядом (x^maxDegree)
+     */
     public static IntPolynomialCoefficients eye(int maxDegree) {
         if (maxDegree < 0) {
             throw new IllegalArgumentException(
@@ -74,10 +78,16 @@ public class IntPolynomialCoefficients {
         return normalized(array);
     }
 
+    /**
+     * Старшая степень полинома
+     */
     public int leaderDegree() {
         return c.length - 1;
     }
 
+    /**
+     * Значение коэффициента полинома перед переменной с заданной степенью
+     */
     public int c(int degree) {
         return c[degree];
     }
@@ -86,6 +96,9 @@ public class IntPolynomialCoefficients {
         return Arrays.copyOf(c, c.length);
     }
 
+    /**
+     * Метод, возвращающий полином, у которого все элементы имеют противоположные знаки
+     */
     public IntPolynomialCoefficients neg() {
         var negative = Arrays.stream(c)
                 .map(Math::negateExact)
@@ -94,6 +107,9 @@ public class IntPolynomialCoefficients {
         return withoutCopying(negative);
     }
 
+    /**
+     * Метод, возвращающий результат суммы полиномов - текущее + заданное
+     */
     public IntPolynomialCoefficients sum(IntPolynomialCoefficients summand) {
         int[] lessSummand;
         int[] sum;
@@ -113,10 +129,16 @@ public class IntPolynomialCoefficients {
         return withoutCopying(sum);
     }
 
+    /**
+     * Метод, возвращающий результат разности полиномов - текущее - заданное
+     */
     public IntPolynomialCoefficients subtract(IntPolynomialCoefficients subtrahend) {
         return sum(subtrahend.neg());
     }
 
+    /**
+     * Метод, возвращающий полином с умноженными на заданное число элементами
+     */
     public IntPolynomialCoefficients multiply(int scalar) {
         var product = Arrays.stream(c)
                 .map(value -> Math.multiplyExact(value, scalar))
@@ -125,6 +147,9 @@ public class IntPolynomialCoefficients {
         return withoutCopying(product);
     }
 
+    /**
+     * Метод, возвращающий результат разности полиномов - текущее - заданное
+     */
     public IntPolynomialCoefficients multiply(IntPolynomialCoefficients multiplier) {
         if (c.length == 0 || multiplier.c.length == 0) {
             return ZERO;
@@ -142,6 +167,9 @@ public class IntPolynomialCoefficients {
         return withoutCopying(product);
     }
 
+    /**
+     * Метод, возвращающий объект-обёртку с результатами вычисления частного и остатка при делении полиномов - текущее / заданное
+     */
     public QuotientAndRemainder divideAndRemainder(IntPolynomialCoefficients divisor) {
         if (ZERO.equals(divisor)) {
             throw new ArithmeticException("Division on zero polynomial!");
@@ -175,6 +203,9 @@ public class IntPolynomialCoefficients {
         return new QuotientAndRemainder(withoutCopying(quotient), withoutCopying(remainder));
     }
 
+    /**
+     * Класс-объёртка, содержащий 2 полинома - частное и остаток
+     */
     public record QuotientAndRemainder(IntPolynomialCoefficients quotient, IntPolynomialCoefficients remainder) { }
 
     @Override

@@ -1,8 +1,19 @@
 package io.github.ilnurnasybullin.isfm.galois;
 
+/**
+ * Поле Галуа (конечное поле)
+ * @author Насыбуллин Ильнур Анасович (гр. 09-275)
+ */
 public class GField {
 
+    /**
+     * Характеристика поля
+     */
     private final int characteristic;
+
+    /**
+     * Степень поля
+     */
     private final int degree;
 
     private GField(int characteristic, int degree) {

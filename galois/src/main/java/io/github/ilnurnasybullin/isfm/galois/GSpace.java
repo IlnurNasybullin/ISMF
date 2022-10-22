@@ -2,9 +2,20 @@ package io.github.ilnurnasybullin.isfm.galois;
 
 import io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients;
 
+/**
+ * Линейное пространство с полем Галуа и некоторым заданным неприводимым полиномом
+ * @author Насыбуллин Ильнур Анасович (гр. 09-275)
+ */
 public class GSpace {
 
+    /**
+     * Поле Галуа
+     */
     private final GField field;
+
+    /**
+     * Неприводимый полином
+     */
     private final IntPolynomialCoefficients base;
 
     private GSpace(GField field, IntPolynomialCoefficients base) {
