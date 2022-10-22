@@ -8,8 +8,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 @Command
 public class TablesPrinter implements Runnable {
@@ -48,8 +48,96 @@ public class TablesPrinter implements Runnable {
         var algebra = GAlgebra.of(GSpace.of(field, base));
 
         printTableOfDegrees(algebra);
+        System.out.println();
+        printTableOfAddition(algebra);
+        System.out.println();
+        printTableOfMultiplication(algebra);
     }
 
+    /**
+     * Метод, распечатывающий таблицу сложения примитивных полиномов с заданной алгеброй над полем
+     */
+    private void printTableOfAddition(GAlgebra algebra) {
+        var primitivePolynomials = primitivePolynomials(algebra);
+        var additionMatrix = new IntPolynomialCoefficients[primitivePolynomials.length][primitivePolynomials.length];
+
+        for (int i = 0; i < additionMatrix.length; i++) {
+            for (int j = i; j < additionMatrix.length; j++) {
+                additionMatrix[i][j] = algebra.sum(primitivePolynomials[i], primitivePolynomials[j]);
+                additionMatrix[j][i] = additionMatrix[i][j];
+            }
+        }
+
+        System.out.println("Table of addition");
+        System.out.println("-----------------");
+        printPolynomialMatrix(algebra, primitivePolynomials, additionMatrix);
+    }
+
+    /**
+     * Метод, распечатывающий таблицу умножения примитивных полиномов с заданной алгеброй над полем
+     */
+    private void printTableOfMultiplication(GAlgebra algebra) {
+        var primitivePolynomials = primitivePolynomials(algebra);
+        var additionMatrix = new IntPolynomialCoefficients[primitivePolynomials.length][primitivePolynomials.length];
+
+        for (int i = 0; i < additionMatrix.length; i++) {
+            for (int j = i; j < additionMatrix.length; j++) {
+                additionMatrix[i][j] = algebra.multiply(primitivePolynomials[i], primitivePolynomials[j]);
+                additionMatrix[j][i] = additionMatrix[i][j];
+            }
+        }
+
+        System.out.println("Table of multiplication");
+        System.out.println("-----------------");
+        printPolynomialMatrix(algebra, primitivePolynomials, additionMatrix);
+    }
+
+    private void printPolynomialMatrix(GAlgebra algebra, IntPolynomialCoefficients[] header, IntPolynomialCoefficients[][] matrix) {
+        String linePattern = "%-4s";
+
+        Function<IntPolynomialCoefficients[], String[]> toFormattedArgs = args ->
+                Arrays.stream(args)
+                        .map(algebra::toDecimal)
+                        .map(Object::toString)
+                        .toArray(String[]::new);
+
+        var decimals = toFormattedArgs.apply(header);
+
+        printArgs(linePattern, "");
+        printArgs(linePattern, decimals);
+        System.out.println();
+
+        for (int i = 0; i < header.length; i++) {
+            printArgs(linePattern, Integer.toString(algebra.toDecimal(header[i])));
+            printArgs(linePattern, toFormattedArgs.apply(matrix[i]));
+            System.out.println();
+        }
+    }
+
+    private void printArgs(String pattern, String... args) {
+        for (var arg: args) {
+            System.out.printf(pattern, arg);
+        }
+    }
+
+    private IntPolynomialCoefficients[] primitivePolynomials(GAlgebra algebra) {
+        var comparator = Comparator.comparingInt(algebra::toDecimal);
+
+        var primitives = new TreeSet<>(comparator);
+        var c = IntPolynomialCoefficients.ONE;
+        var x = IntPolynomialCoefficients.eye(1);
+
+        do {
+            primitives.add(c);
+            c = algebra.normalization(c.multiply(x)).coefficients();
+        } while (!primitives.contains(c));
+
+        return primitives.toArray(IntPolynomialCoefficients[]::new);
+    }
+
+    /**
+     * Метод, распечатывающий таблицу степеней примитивных полиномов с заданной алгеброй над полем
+     */
     private void printTableOfDegrees(GAlgebra algebra) {
         var linePattern = "%-5s|%-20s\n";
 
