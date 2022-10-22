@@ -11,8 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients.build;
-import static io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients.eye;
+import static io.github.ilnurnasybullin.math.polynomial.IntPolynomialCoefficients.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GAlgebraTest {
@@ -36,6 +35,28 @@ public class GAlgebraTest {
                 Arguments.of(algebra_2_3, eye(5), gPol(space_2_3, build(1, 1, 1))),
                 Arguments.of(algebra_2_3, eye(4), gPol(space_2_3, build(0, 1, 1))),
                 Arguments.of(algebra_2_3, eye(3), gPol(space_2_3, build(1, 1)))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("_testToDecimal_success_dataSet")
+    public void testToDecimal_success(GAlgebra algebra, IntPolynomialCoefficients coefficients, int number) {
+        assertThat(algebra.toDecimal(coefficients))
+                .isEqualTo(number);
+    }
+
+    public static Stream<Arguments> _testToDecimal_success_dataSet() {
+        var algebra_2_3 = GAlgebra.of(space(2, 3, build(1, 1, 0, 1)));
+
+        return Stream.of(
+                Arguments.of(algebra_2_3, eye(7), 1),
+                Arguments.of(algebra_2_3, eye(6), 5),
+                Arguments.of(algebra_2_3, eye(5), 7),
+                Arguments.of(algebra_2_3, eye(4), 6),
+                Arguments.of(algebra_2_3, eye(3), 3),
+                Arguments.of(algebra_2_3, eye(2), 4),
+                Arguments.of(algebra_2_3, eye(1), 2),
+                Arguments.of(algebra_2_3, ONE, 1)
         );
     }
 

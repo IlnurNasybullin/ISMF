@@ -29,4 +29,17 @@ public class GAlgebra {
         return new GIntPolynomialCoefficients(space, IntPolynomialCoefficients.of(remainders));
     }
 
+    public int toDecimal(IntPolynomialCoefficients polynomial) {
+        var normalized = normalization(polynomial).coefficients();
+
+        int accumulator = 0;
+        int digit = 1;
+        for (int i = 0; i < normalized.leaderDegree() + 1; i++) {
+            accumulator += digit * normalized.c(i);
+            digit *= space.mod();
+        }
+
+        return accumulator;
+    }
+
 }
