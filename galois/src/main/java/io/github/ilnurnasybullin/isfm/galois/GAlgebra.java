@@ -73,7 +73,12 @@ public class GAlgebra {
      * Нахождение обратного полинома в текущем линейном пространстве
      */
     public IntPolynomialCoefficients reverse(IntPolynomialCoefficients coefficients) {
-        return null;
+        var reverse = new PolynomialEGAlgorithm(this)
+                .extendedGcd(space.base(), coefficients)
+                .bezout()
+                .y();
+
+        return normalization(reverse).coefficients();
     }
 
 }

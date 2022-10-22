@@ -66,9 +66,9 @@ public class GAlgebraTest {
     public void testReverse_success(GAlgebra algebra, IntPolynomialCoefficients c, IntPolynomialCoefficients reverseC) {
         var assertions = new SoftAssertions();
         assertThat(algebra.reverse(c))
-                .isEqualTo(reverseC);
+                .isEqualTo(algebra.normalization(reverseC).coefficients());
         assertThat(algebra.reverse(reverseC))
-                .isEqualTo(c);
+                .isEqualTo(algebra.normalization(c).coefficients());
         assertions.assertAll();
     }
 
