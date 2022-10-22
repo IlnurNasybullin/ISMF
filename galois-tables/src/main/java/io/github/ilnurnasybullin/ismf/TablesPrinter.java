@@ -51,16 +51,20 @@ public class TablesPrinter implements Runnable {
     }
 
     private void printTableOfDegrees(GAlgebra algebra) {
-        var linePattern = "%s-5|%s-20\n";
+        var linePattern = "%-5s|%-20s\n";
 
         System.out.println("Table of degrees");
         System.out.println("----------------");
         System.out.printf(linePattern, "x", "decompose");
 
-        var c = IntPolynomialCoefficients.eye(0);
+        var c = IntPolynomialCoefficients.ONE;
+        var x = IntPolynomialCoefficients.eye(1);
         int degree = 0;
         do {
-            System.out.printf(linePattern, String.format("x^%d", degree), String.format("%s (%d)", c));
+            System.out.printf(linePattern, String.format("x^%d", degree), String.format("%s (%d)", c, algebra.toDecimal(c)));
+            c = algebra.normalization(c.multiply(x)).coefficients();
+            degree++;
         } while (!IntPolynomialCoefficients.ONE.equals(c));
+        System.out.printf(linePattern, String.format("x^%d", degree), String.format("%s (%d)", c, algebra.toDecimal(c)));
     }
 }
