@@ -90,10 +90,10 @@ public class GAlgebraTest {
                                    IntPolynomialCoefficients quotient) {
         var assertions = new SoftAssertions();
         assertThat(algebra.divide(dividend, divisor))
-                .isEqualTo(quotient)
-                .isEqualTo(algebra.multiply(divisor, algebra.reverse(divisor)));
+                .isEqualTo(algebra.normalization(quotient).coefficients())
+                .isEqualTo(algebra.multiply(dividend, algebra.reverse(divisor)));
         assertThat(algebra.multiply(quotient, divisor))
-                .isEqualTo(algebra.normalization(dividend));
+                .isEqualTo(algebra.normalization(dividend).coefficients());
         assertions.assertAll();
     }
 

@@ -86,8 +86,7 @@ public class GAlgebra {
      * @implNote реализовано через нахождение обратного элемента для делителя-полинома
      */
     public IntPolynomialCoefficients divide(IntPolynomialCoefficients dividend, IntPolynomialCoefficients divisor) {
-//        return normalization(a.multiply(reverse(b))).coefficients();
-        return null;
+        return normalization(dividend.multiply(reverse(divisor))).coefficients();
     }
 
 }
