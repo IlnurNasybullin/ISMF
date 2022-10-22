@@ -11,6 +11,9 @@ import picocli.CommandLine.Option;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * @author Насыбуллин Ильнур Анасович (гр. 09-275)
+ */
 @Command
 public class TablesPrinter implements Runnable {
 
