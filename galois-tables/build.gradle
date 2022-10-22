@@ -1,0 +1,31 @@
+dependencies {
+    implementation project(':galois')
+    implementation 'info.picocli:picocli:4.6.3'
+}
+
+mainClassName = 'io.github.ilnurnasybullin.ismf.TablesPrinter'
+
+application {
+    mainModule = 'io.github.ilnurnasybullin.ismf'
+    mainClass = mainClassName
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    baseName = 'print-tables'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+java {
+    withSourcesJar()
+}

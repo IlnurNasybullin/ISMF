@@ -3,4 +3,5 @@ include 'extended-gcd'
 include 'pow-mod'
 include 'galois'
 include 'math-polynomial'
+include 'galois-tables'
 
