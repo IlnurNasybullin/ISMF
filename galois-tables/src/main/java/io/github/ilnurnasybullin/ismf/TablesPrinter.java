@@ -55,6 +55,8 @@ public class TablesPrinter implements Runnable {
         printTableOfAddition(algebra);
         System.out.println();
         printTableOfMultiplication(algebra);
+        System.out.println();
+        printTableOfDivision(algebra);
     }
 
     /**
@@ -91,6 +93,25 @@ public class TablesPrinter implements Runnable {
         }
 
         System.out.println("Table of multiplication");
+        System.out.println("-----------------");
+        printPolynomialMatrix(algebra, primitivePolynomials, additionMatrix);
+    }
+
+    /**
+     * Метод, распечатывающий таблицу деления примитивных полиномов с заданной алгеброй над полем
+     */
+    private void printTableOfDivision(GAlgebra algebra) {
+        var primitivePolynomials = primitivePolynomials(algebra);
+        var additionMatrix = new IntPolynomialCoefficients[primitivePolynomials.length][primitivePolynomials.length];
+
+        for (int i = 0; i < additionMatrix.length; i++) {
+            for (int j = i; j < additionMatrix.length; j++) {
+                additionMatrix[i][j] = algebra.divide(primitivePolynomials[i], primitivePolynomials[j]);
+                additionMatrix[j][i] = additionMatrix[i][j];
+            }
+        }
+
+        System.out.println("Table of division");
         System.out.println("-----------------");
         printPolynomialMatrix(algebra, primitivePolynomials, additionMatrix);
     }
